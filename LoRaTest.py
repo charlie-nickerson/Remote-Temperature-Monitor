@@ -1,20 +1,23 @@
 import serial
 
-# Specify the port name and the baud rate. Adjust the baud rate as needed.
-serial_port = '/dev/ttyACM0'
-baud_rate = 9600  # This is a common baud rate, but check your device specs.
+# Configure the serial connection
+ser = serial.Serial(
+    port='/dev/ttyACM0',  # Replace with your device's serial port
+    baudrate=115200,        # Set to your device's baud rate
+    timeout=10            # Timeout in seconds to wait for a message
+)
 
-try:
-    # Open serial connection
-    with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
-        print("Serial port opened: ", ser.name)
-        
-        # Example: send a command to the LoRa device
-        ser.write(b'Hello LoRa\n')  # The command needs to be in bytes
-        
-        # Wait for a response and read it
-        response = ser.readline()
-        print("Received response: ", response.decode())
-        
-except serial.SerialException as e:
-    print("Error opening serial port: ", e)
+# Ensure the serial port is open
+if not ser.is_open:
+    ser.open()
+
+print("Waiting for message...")
+
+# Wait for a message
+while True:
+    if ser.in_waiting > 0:
+        incoming_bytes = ser.read(ser.in_waiting)
+        print("Received bytes:", bytearray.fromhex(incoming_bytes.hex()).decode())  # Converts hex to ascii and prints the result
+
+# Clean up
+ser.close()
