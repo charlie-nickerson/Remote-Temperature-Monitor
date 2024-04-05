@@ -1,5 +1,5 @@
 
-from packages import LoRaTest
+from packages import receiver_modules
 
 # Configure the serial connection
 ser = serial.Serial(
