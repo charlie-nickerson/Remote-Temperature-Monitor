@@ -1,34 +1,30 @@
-import time
-from datetime import datetime
-from w1thermsensor import W1ThermSensor
-import boto3
 
-s3_client = boto3.client('s3')
-sensor = W1ThermSensor()
+from packages import LoRaTest
 
-rate_of_upload = 60
-rate_of_measurement = 5
-aws_bucket_name = "remotemonitor"
-log_file_name = 'temp.log'
-time_file_name = "last_written.log"
+# Configure the serial connection
+ser = serial.Serial(
+    port='/dev/ttyACM0',  # Replace with your device's serial port
+    baudrate=115200,        # Set to your device's baud rate
+    timeout=10            # Timeout in seconds to wait for a message
+)
 
-while True:
-    with open(time_file_name, 'r') as time_file:
-        prev_time_stamp = int(time_file.read())
+def main():
+    open_serial_port()
 
-    #if we haven't written to the timestamp file in the last minute, update the value in the timestamp file
-    if int(time.time()) >= prev_time_stamp + rate_of_upload: 
-        # upload log to s3 
-        s3_client.upload_file(log_file_name, 
-                              aws_bucket_name, 
-                              "log_{}.txt".format(datetime.now().strftime("%Y-%m-%d")))
-        # update timestamp file
-        with open(time_file_name, 'w') as file:
-            file.write("{}".format(int(time.time())))
+    if headers_dont_exist():add_headers()
+             
+    while True:
+            if its_time_to_upload():
+                upload_log_to_aws()
+                replace_the_date()
+                initialize_log()
 
-    # update log with entry
-    with open(log_file_name, 'a') as file:
-        file.write("{}\t{} C\n".format(int(time.time()), round(sensor.get_temperature(), 1)))
-    
-    # wait a certain amount of seconds before running again
-    time.sleep(rate_of_measurement)
+            message = received_message(ser)
+            print("Receieved message {}".format(message))
+            if is_formatted_correctly(message):
+                print("Appending {} to log".format(message[1:])) 
+                append_data_to_log(message)            
+            else: print("Message was received in an incorrect format!")
+
+if __name__ == "__main__":
+    main()
