@@ -1,4 +1,4 @@
-from packages.data_transmission_lora import *
+from packages.sending_modules import *
 
 rate_of_measurement = 30
 
