@@ -4,11 +4,11 @@
 The Remote Temperature Monitoring Device for Water Streams (RTMD-RS) is an innovative solution designed to measure and log water temperature in streams. Utilizing LoRa technology for wireless data transmission, this device sends temperature data and timestamps to a central computer connected to the internet. The data is logged into a CSV file and automatically uploaded to an AWS S3 bucket daily. This project aims to facilitate remote environmental monitoring with an emphasis on affordability, simplicity, and accessibility.
 
 ## Proof of Concept:
-![Device Outside](images/device_outside.jpg)
+![Device Outside](/images/device_outsides.jpg)
 
 ## Internal Components
 
-![Device Inside](images/device_inside.jpg)
+![Device Inside](/images/device_insides.jpg)
 
 ### Features
 - Real-time water temperature monitoring with timestamp.
