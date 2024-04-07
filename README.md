@@ -38,12 +38,10 @@ Total Project Cost: Approximately $112.11
 3. Plug the Waveshare USB to LoRa Dongle into the Raspberry Pi via the USB adapter.
 4. Connect the Solar Power Manager to the Raspberry Pi and the Mini Solar Panels for power supply.
 
-### Software Setup
-
-## AWS
+### AWS
 - You will need to replace the bucket name with the name of your bucket in the receiver and sender modules and you will also need to configure the AWS CLI using the command `aws configure`. 
 
-## Dependencies (Use pip3 install)
+### Dependencies (Use pip3 install)
 - pyserial
 - boto3
 - w1thermsensor
@@ -51,7 +49,7 @@ Total Project Cost: Approximately $112.11
 - time
 - awscli
 
-## Usage
+### Usage
 1. When installing the Waveshare USB to LoRa Data Transfer Module be sure to specify the serial port id in the receiver and sender modules under packages.
 2. When using the Solar Power Manager (B) with embedded 10000mAh Li-Po Battery with the raspberry pi zero wh make sure to open the solar power manager and set the voltage output to 5 volts.
 3. To edit the frequency at which data is recorded you can change the variable "rate_of_measurement" under the sender module.
