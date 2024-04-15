@@ -98,23 +98,23 @@ def initialize_log():
 
 
 
-open_serial_port()
+# open_serial_port()
 
-if headers_dont_exist():add_headers()
+# if headers_dont_exist():add_headers()
              
-while True:
-        if its_time_to_upload():
-             upload_log_to_aws()
-             replace_the_date()
-             initialize_log()
+# while True:
+#         if its_time_to_upload():
+#              upload_log_to_aws()
+#              replace_the_date()
+#              initialize_log()
 
-        message = received_message(ser)
-        print("Receieved message {}".format(message))
-        if is_formatted_correctly(message):
-            print("Appending {} to log".format(message[1:])) 
-            append_data_to_log(message)            
-        else: print("Message was received in an incorrect format!")
+#         message = received_message(ser)
+#         print("Receieved message {}".format(message))
+#         if is_formatted_correctly(message):
+#             print("Appending {} to log".format(message[1:])) 
+#             append_data_to_log(message)            
+#         else: print("Message was received in an incorrect format!")
         
 
-# Clean up
-ser.close()
+# # Clean up
+# ser.close()

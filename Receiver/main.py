@@ -1,5 +1,5 @@
 
-from packages import receiver_modules
+from packages.receiver_modules import *
 
 # Configure the serial connection
 ser = serial.Serial(
@@ -9,9 +9,10 @@ ser = serial.Serial(
 )
 
 def main():
+    
     open_serial_port()
 
-    if headers_dont_exist():add_headers()
+    if headers_dont_exist(): add_headers()
              
     while True:
             if its_time_to_upload():
