@@ -18,6 +18,11 @@ import board
 import adafruit_ssd1306
 # Import RFM9x
 import adafruit_rfm9x
+# Import temperature sensor module
+from w1thermsensor import W1ThermSensor
+
+sensor = W1ThermSensor()
+
 
 # Button A
 btnA = DigitalInOut(board.D5)
@@ -55,44 +60,10 @@ rfm9x.tx_power = 23
 prev_packet = None
 
 while True:
-    packet = None
-    # draw a box to clear the image
+    # Send temperature
     display.fill(0)
-    display.text('RasPi LoRa', 35, 0, 1)
-
-    # check for packet rx
-    packet = rfm9x.receive()
-    if packet is None:
-        display.show()
-        display.text('- Waiting for PKT -', 15, 20, 1)
-    else:
-        # Display the packet text and rssi
-        display.fill(0)
-        prev_packet = packet
-        packet_text = str(prev_packet, "utf-8")
-        display.text('RX: ', 0, 0, 1)
-        display.text(packet_text, 25, 0, 1)
-        time.sleep(1)
-
-    if not btnA.value:
-        # Send Button A
-        display.fill(0)
-        button_a_data = bytes("Button A!\r\n","utf-8")
-        rfm9x.send(button_a_data)
-        display.text('Sent Button A!', 25, 15, 1)
-    elif not btnB.value:
-        # Send Button B
-        display.fill(0)
-        button_b_data = bytes("Button B!\r\n","utf-8")
-        rfm9x.send(button_b_data)
-        display.text('Sent Button B!', 25, 15, 1)
-    elif not btnC.value:
-        # Send Button C
-        display.fill(0)
-        button_c_data = bytes("Button C!\r\n","utf-8")
-        rfm9x.send(button_c_data)
-        display.text('Sent Button C!', 25, 15, 1)
-
-
+    temperature_data = bytes(str(sensor.get_temperature()), encoding='utf8')
+    rfm9x.send(temperature_data)
+    display.text('Sent  '+ str(sensor.get_temperature()), 25, 15, 1)
     display.show()
-    time.sleep(0.1)
+    time.sleep(60)
