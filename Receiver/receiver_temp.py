@@ -66,10 +66,14 @@ while True:
         # Display the packet text and rssi
         display.fill(0)
         prev_packet = packet
-        packet_text = str(prev_packet, "utf-8")
-        display.text('RX: ', 0, 0, 1)
-        display.text(packet_text, 25, 0, 1)
-        time.sleep(1)
+        try:
+            packet_text = prev_packet.decode('utf-8')
+            display.text('RX: ', 0, 0, 1)
+            display.text(packet_text, 25, 0, 1)
+            time.sleep(1)
+        except UnicodeDecodeError:
+            print("Incomplete Data!")
+            time.sleep(60)
 
     display.show()
     time.sleep(0.1)
